@@ -1,5 +1,6 @@
 import {
   LucideProps,
+  Mail,
   Moon,
   SunMedium,
   Twitter,
@@ -28,4 +29,5 @@ export const Icons = {
       ></path>
     </svg>
   ),
+  mail: Mail,
 }

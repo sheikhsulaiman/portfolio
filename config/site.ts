@@ -9,10 +9,19 @@ export const siteConfig = {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Skills",
+      href: "/",
+    },
+    {
+      title: "Works",
+      href: "/",
+    },
   ],
   links: {
     twitter: "https://twitter.com/shadcn",
     github: "https://github.com/shadcn/ui",
+    mail: "mailto:sheikhsulaimansony",
     docs: "https://ui.shadcn.com",
   },
 }
