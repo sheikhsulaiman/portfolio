@@ -15,10 +15,11 @@ export function MainNav({ items }: MainNavProps) {
     <div className="flex grow  gap-6 md:gap-10 ">
       <Link
         href="/"
-        className="sm:self-cente mx-auto flex items-center space-x-2 self-start "
+        className="sm:self-cente mx-auto flex items-center space-x-2 self-start text-xl font-bold"
       >
-        <Icons.logo className="h-6 w-6" />
-        <span className="inline-block font-bold">{siteConfig.name}</span>
+        SULAIMAN
+        {/* <Icons.logo className="h-6 w-6" />
+        <span className="inline-block font-bold">{siteConfig.name}</span> */}
       </Link>
 
       {items?.length ? (
