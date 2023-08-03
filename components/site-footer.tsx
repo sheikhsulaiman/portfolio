@@ -4,7 +4,7 @@ import { Icons } from "./icons"
 
 function SiteFooter() {
   return (
-    <footer className="p-4 ">
+    <footer className="p-4 mx-auto">
       <a
         href="mailto:sheikhsulaimansony@outlook.com"
         className="flex justify-center gap-2 items-center"

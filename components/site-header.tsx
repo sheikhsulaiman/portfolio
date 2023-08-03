@@ -1,56 +1,36 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
+import { AlignJustify, X } from "lucide-react"
 
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible"
+
 export function SiteHeader() {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-4">
-        <div className=" flex items-center sm:hidden">
-          <button
-            type="button"
-            className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-          >
-            <span className="absolute -inset-0.5"></span>
-            <span className="sr-only">Open main menu</span>
-
-            <svg
-              className="block h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-
-            <svg
-              className="hidden h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-96% ">
+          <div className="flex items-center justify-between space-x-4 px-4">
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="w-9 p-0">
+                {isOpen ? <X /> : <AlignJustify className="h-4 w-4" />}
+                <span className="sr-only">Toggle</span>
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+        </Collapsible>
         <div className="flex grow">
           <MainNav items={siteConfig.mainNav} />
         </div>
@@ -101,7 +81,27 @@ export function SiteHeader() {
             <ThemeToggle />
           </nav>
         </div>
-      </div>
+      </div>{" "}
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="w-96% mx-2  space-y-2"
+      >
+        <CollapsibleContent className="space-y-2 flex flex-col">
+          {siteConfig.mainNav?.map(
+            (item, index) =>
+              item.href && (
+                <Link
+                  key={index}
+                  href={item.href}
+                  className="text-center border border-input hover:bg-accent hover:text-accent-foreground py-2"
+                >
+                  {item.title}
+                </Link>
+              )
+          )}
+        </CollapsibleContent>
+      </Collapsible>
     </header>
   )
 }
