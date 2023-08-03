@@ -7,15 +7,15 @@ export const siteConfig = {
   mainNav: [
     {
       title: "Home",
-      href: "/",
+      href: "#home",
     },
     {
       title: "Skills",
-      href: "/",
+      href: "#skills",
     },
     {
       title: "Works",
-      href: "/",
+      href: "#works",
     },
   ],
   links: {
@@ -24,4 +24,20 @@ export const siteConfig = {
     mail: "mailto:sheikhsulaimansony",
     resume: "https://1drv.ms/b/s!AhkrQbtxXO-9l2PVVE4L5ZGn8pm7?e=2yT5bf",
   },
+  skills: [
+    "Html",
+    "Css",
+    "JavaScript",
+    "TypeScript",
+    "Tailwind Css",
+    "React",
+    "Next Js",
+    "Dart",
+    "Flutter",
+    "Java",
+    "Firebase",
+    "Supabase",
+    "My SQL",
+    "PostgreSQL",
+  ],
 }

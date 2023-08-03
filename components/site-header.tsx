@@ -65,7 +65,7 @@ export function SiteHeader() {
                 })}
               >
                 <Icons.mail className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
+                <span className="sr-only">sheikhsulaimansony@outlook.com</span>
               </div>
             </Link>
             <Link
