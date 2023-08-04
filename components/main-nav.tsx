@@ -1,5 +1,4 @@
 import * as React from "react"
-import Link from "next/link"
 
 import { NavItem } from "@/types/nav"
 import { siteConfig } from "@/config/site"
@@ -13,21 +12,21 @@ interface MainNavProps {
 export function MainNav({ items }: MainNavProps) {
   return (
     <div className="flex grow  gap-6 md:gap-10 ">
-      <Link
+      <a
         href="/"
         className="sm:self-center mx-auto flex items-center space-x-2 self-start text-xl font-bold"
       >
         SULAIMAN
         {/* <Icons.logo className="h-6 w-6" />
         <span className="inline-block font-bold">{siteConfig.name}</span> */}
-      </Link>
+      </a>
 
       {items?.length ? (
         <nav className="hidden grow items-center justify-center gap-6 sm:flex ">
           {items?.map(
             (item, index) =>
               item.href && (
-                <Link
+                <a
                   key={index}
                   href={item.href}
                   className={cn(
@@ -36,7 +35,7 @@ export function MainNav({ items }: MainNavProps) {
                   )}
                 >
                   {item.title}
-                </Link>
+                </a>
               )
           )}
         </nav>
