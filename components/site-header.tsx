@@ -21,7 +21,11 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-4">
-        <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-96% ">
+        <Collapsible
+          open={isOpen}
+          onOpenChange={setIsOpen}
+          className="w-96% sm:hidden"
+        >
           <div className="flex items-center justify-between space-x-4 px-4">
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="w-9 p-0">
@@ -85,7 +89,7 @@ export function SiteHeader() {
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className="w-96% mx-2  space-y-2"
+        className="w-96% mx-2  space-y-2 sm:hidden"
       >
         <CollapsibleContent className="space-y-2 flex flex-col">
           {siteConfig.mainNav?.map(

@@ -26,9 +26,12 @@ export default function IndexPage() {
               I am passionate about creating innovative digital solutions.
             </p>
           </div>
-          <img
-            src="/../public/avatar.jpg"
+          <Image
+            src="/avatar.jpg"
+            // src="/../public/avatar.jpg"
             alt="avatar"
+            height={400}
+            width={230}
             className="mx-auto mt-8 rounded-xl shadow-lg sm:mt-0"
           />
         </div>
