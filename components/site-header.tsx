@@ -36,7 +36,7 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-1 gap-1">
+          <nav className="flex items-center gap-1 space-x-1">
             <Link href={siteConfig.links.mail} target="_blank" rel="noreferrer">
               <div
                 className={buttonVariants({
@@ -105,15 +105,14 @@ export function SiteHeader() {
       >
         <CollapsibleContent className="flex flex-col space-y-2">
           {siteConfig.mainNav?.map(
-            (item, index) =>
+            (item) =>
               item.href && (
-                <Link
-                  key={index}
+                <a
                   href={item.href}
                   className="border border-input py-2 text-center hover:bg-accent hover:text-accent-foreground"
                 >
                   {item.title}
-                </Link>
+                </a>
               )
           )}
         </CollapsibleContent>
