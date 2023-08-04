@@ -69,11 +69,9 @@ export default function IndexPage() {
             ))}
           </div>
         ) : null}
-      </section>
-      <section
-        id="works"
-        className="container mx-auto bg-slate-50 pb-8 pt-6 dark:bg-black md:py-10"
-      >
+      </section>{" "}
+      <hr className="container mx-auto" />
+      <section id="works" className="container mx-auto  pb-8 pt-6  md:py-10">
         <h1 className="text-center text-2xl">Works</h1>
       </section>
     </div>
