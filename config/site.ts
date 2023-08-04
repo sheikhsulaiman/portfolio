@@ -6,15 +6,15 @@ export const siteConfig = {
   mainNav: [
     {
       title: "Home",
-      href: "#home",
+      href: "/",
     },
     {
       title: "Skills",
-      href: "#skills",
+      href: "/#skills",
     },
     {
       title: "Works",
-      href: "#works",
+      href: "/#works",
     },
   ],
   links: {
@@ -40,4 +40,8 @@ export const siteConfig = {
     "My SQL",
     "PostgreSQL",
   ],
+  works: {
+    title: "some Title",
+    repoLink: "/",
+  },
 }

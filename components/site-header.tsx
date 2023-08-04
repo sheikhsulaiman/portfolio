@@ -107,14 +107,14 @@ export function SiteHeader() {
         onOpenChange={setIsOpen}
         className="w-96% mx-2  space-y-2 sm:hidden"
       >
-        <CollapsibleContent className="space-y-2 flex flex-col">
+        <CollapsibleContent className="flex flex-col space-y-2">
           {siteConfig.mainNav?.map(
             (item, index) =>
               item.href && (
                 <Link
                   key={index}
                   href={item.href}
-                  className="text-center border border-input hover:bg-accent hover:text-accent-foreground py-2"
+                  className="border border-input py-2 text-center hover:bg-accent hover:text-accent-foreground"
                 >
                   {item.title}
                 </Link>
