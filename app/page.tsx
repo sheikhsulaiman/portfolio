@@ -16,7 +16,7 @@ export default function IndexPage() {
             <h1 className="  w-auto text-3xl font-extrabold leading-tight tracking-tighter  md:text-4xl">
               Hi, I am
             </h1>
-            <h1 className=" w-auto text-3xl font-extrabold leading-tight tracking-tighter  md:text-4xl">
+            <h1 className=" w-auto text-center text-3xl font-extrabold leading-tight tracking-tighter  md:text-4xl">
               Sheikh Sulaiman Sony.
             </h1>
             <p className="  text-lg text-muted-foreground ">
@@ -57,7 +57,7 @@ export default function IndexPage() {
       <hr className="container mx-auto" />
       <section
         id="skills"
-        className="container mx-auto pb-8 pt-6 md:py-10 bg-slate-50 dark:bg-black"
+        className="container mx-auto bg-slate-50 pb-8 pt-6 dark:bg-black md:py-10"
       >
         <h1 className="text-center text-2xl">Skills</h1>
         {siteConfig.skills ? (
