@@ -1,7 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import { BiLogoTypescript } from "react-icons/bi"
-import { IoLogoCss3, IoLogoHtml5, IoLogoJavascript } from "react-icons/io"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
@@ -28,11 +26,9 @@ export default function IndexPage() {
               I am passionate about creating innovative digital solutions.
             </p>
           </div>
-          <Image
+          <img
             src="/../public/avatar.jpg"
             alt="avatar"
-            height={400}
-            width={230}
             className="mx-auto mt-8 rounded-xl shadow-lg sm:mt-0"
           />
         </div>
