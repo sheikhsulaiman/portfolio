@@ -18,8 +18,8 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/",
-    linkedin: "https://www.linkedin.com/",
+    twitter: "https://twitter.com/sulaiman7473",
+    linkedin: "https://www.linkedin.com/in/sheikh-sulaiman",
     github: "https://github.com/sheikhsulaiman",
     mail: "mailto:sheikhsulaimansony@outlook.com",
     resume: "https://1drv.ms/b/s!AhkrQbtxXO-9l2PVVE4L5ZGn8pm7?e=2yT5bf",
