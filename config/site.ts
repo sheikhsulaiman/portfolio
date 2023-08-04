@@ -18,9 +18,10 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
+    twitter: "https://twitter.com/",
+    linkedin: "https://www.linkedin.com/",
     github: "https://github.com/sheikhsulaiman",
-    mail: "mailto:sheikhsulaimansony",
+    mail: "mailto:sheikhsulaimansony@outlook.com",
     resume: "https://1drv.ms/b/s!AhkrQbtxXO-9l2PVVE4L5ZGn8pm7?e=2yT5bf",
   },
   skills: [

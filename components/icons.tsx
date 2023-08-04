@@ -1,4 +1,5 @@
 import {
+  Linkedin,
   LucideProps,
   Mail,
   Moon,
@@ -30,4 +31,5 @@ export const Icons = {
     </svg>
   ),
   mail: Mail,
+  linkedin: Linkedin,
 }
