@@ -70,7 +70,7 @@ export default function IndexPage() {
             ))}
           </div>
         ) : null}
-      </section>{" "}
+      </section>
       <hr className="container mx-auto" />
       <Works />
     </div>

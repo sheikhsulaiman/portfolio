@@ -3,16 +3,18 @@ import Link from "next/link"
 
 import { Icons } from "./icons"
 
+let repos: any
 async function fetchRepos() {
   const response = await fetch(
     "https://api.github.com/users/sheikhsulaiman/repos"
   )
-  const repos = await response.json()
-  return repos
+  repos = await response.json()
+  // return repos
 }
 
-const Works = async () => {
-  const repos = await fetchRepos()
+fetchRepos()
+const Works = () => {
+  // const repos = await fetchRepos()
   return (
     <section id="works" className="container mx-auto  pb-8 pt-6 md:py-10">
       <h1 className="text-center text-2xl">Works</h1>
@@ -26,7 +28,12 @@ const Works = async () => {
               <hr className="my-2" />
               <div className="flex justify-between">
                 <p>Language: {repo.language}</p>
-                <Link href={repo.html_url} target="_blank" rel="noreferrer">
+                <Link
+                  key={repo.id}
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <Icons.gitHub className="h-5 w-5" />
                   <span className="sr-only">GitHub</span>
                 </Link>
