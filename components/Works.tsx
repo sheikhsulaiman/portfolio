@@ -7,12 +7,13 @@ async function fetchRepos() {
   const response = await fetch(
     "https://api.github.com/users/sheikhsulaiman/repos"
   )
-  const repos = await response.json()
+  const repos: [] = await response.json()
   return repos
 }
 
-const Works = async () => {
-  const repos = await fetchRepos()
+const repos: [] = await fetchRepos()
+
+const Works = () => {
   return (
     <section id="works" className="container mx-auto  pb-8 pt-6 md:py-10">
       <h1 className="text-center text-2xl">Works</h1>
