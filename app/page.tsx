@@ -72,7 +72,9 @@ export default function IndexPage() {
         ) : null}
       </section>
       <hr className="container mx-auto" />
-      <Works />
+      <>
+        <Works />
+      </>
     </div>
   )
 }
