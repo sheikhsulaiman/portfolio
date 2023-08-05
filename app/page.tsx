@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
+import Works from "@/components/Works"
 
 export default function IndexPage() {
   return (
@@ -71,9 +72,7 @@ export default function IndexPage() {
         ) : null}
       </section>{" "}
       <hr className="container mx-auto" />
-      <section id="works" className="container mx-auto  pb-8 pt-6  md:py-10">
-        <h1 className="text-center text-2xl">Works</h1>
-      </section>
+      <Works />
     </div>
   )
 }
