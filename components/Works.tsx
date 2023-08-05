@@ -12,9 +12,13 @@ async function fetchRepos() {
   // return repos
 }
 
-fetchRepos()
+// fetchRepos()
 const Works = () => {
   // const repos = await fetchRepos()
+  // function loadRepos() {
+  //   fetchRepos()
+  // }
+  fetchRepos()
   return (
     <section id="works" className="container mx-auto  pb-8 pt-6 md:py-10">
       <h1 className="text-center text-2xl">Works</h1>
