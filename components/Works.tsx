@@ -5,7 +5,8 @@ import { Icons } from "./icons"
 
 async function fetchRepos() {
   const response = await fetch(
-    "https://api.github.com/users/sheikhsulaiman/repos"
+    "https://api.github.com/users/sheikhsulaiman/repos",
+    { next: { revalidate: 60 } }
   )
   const repos: [] = await response.json()
   return repos
@@ -20,8 +21,8 @@ const Works = () => {
       {repos ? (
         <div className="flex flex-col flex-wrap items-center justify-around  gap-4 pb-8 pt-6 sm:flex-row md:py-10">
           {repos.map((repo: any) => (
-            <div className="w-72 rounded-md border border-input bg-slate-50 p-2 dark:bg-background sm:w-96">
-              <h1 className="flex justify-center p-2  text-center font-bold hover:text-accent-foreground ">
+            <div className="border-input dark:bg-background w-72 rounded-md border bg-slate-50 p-2 sm:w-96">
+              <h1 className="hover:text-accent-foreground flex justify-center  p-2 text-center font-bold ">
                 {repo.name}
               </h1>
               <hr className="my-2" />
