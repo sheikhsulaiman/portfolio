@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Cv } from "@/components/Cv"
 import Works from "@/components/Works"
 
@@ -21,20 +21,19 @@ export default function IndexPage() {
             <h1 className=" w-auto text-center text-3xl font-extrabold leading-tight tracking-tighter  md:text-4xl">
               Sheikh Sulaiman Sony.
             </h1>
-            <p className="  text-muted-foreground text-lg ">
+            <p className="  text-lg text-muted-foreground ">
               Web and App developer.
             </p>
-            <p className="text-muted-foreground mt-4 text-center text-lg">
+            <p className="mt-4 text-center text-lg text-muted-foreground">
               I am passionate about creating innovative digital solutions.
             </p>
           </div>
           <Image
             src="/avatar.jpg"
-            // src="/../public/avatar.jpg"
             alt="avatar"
-            height={400}
+            height={380}
             width={230}
-            className="mx-auto mt-8 rounded-xl shadow-lg sm:mt-0"
+            className="mx-auto mt-8 h-auto w-auto rounded-xl shadow-lg sm:mt-0 "
           />
         </div>
         <div className="flex w-auto justify-center gap-4 sm:justify-start">
@@ -47,12 +46,6 @@ export default function IndexPage() {
             Contact
           </Link>
           <Cv />
-          {/* <Button
-            onClick={async () => await window.open("cv.pdf")}
-            variant="ghost"
-          >
-            Download Resume
-          </Button> */}
         </div>
       </section>
       <hr className="container mx-auto" />

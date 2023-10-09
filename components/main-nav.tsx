@@ -14,7 +14,7 @@ export function MainNav({ items }: MainNavProps) {
     <div className="flex grow  gap-6 md:gap-10 ">
       <a
         href="/"
-        className="sm:self-center mx-auto flex items-center space-x-2 self-start text-xl font-bold"
+        className="mx-auto flex items-center space-x-2 self-start text-xl font-bold sm:self-center"
       >
         SULAIMAN
         {/* <Icons.logo className="h-6 w-6" />

@@ -24,10 +24,7 @@ export function SiteHeader() {
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="flex items-center justify-between sm:hidden ">
             <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm" className="w-4  p-0">
-                {isOpen ? <X /> : <AlignJustify className="h-4 w-4" />}
-                <span className="sr-only">Toggle</span>
-              </Button>
+              {isOpen ? <X /> : <AlignJustify className="mr-4 h-6 w-6" />}
             </CollapsibleTrigger>
           </div>
         </Collapsible>
@@ -108,6 +105,7 @@ export function SiteHeader() {
             (item) =>
               item.href && (
                 <a
+                  key={item.href}
                   href={item.href}
                   className="border border-input py-2 text-center hover:bg-accent hover:text-accent-foreground"
                 >
