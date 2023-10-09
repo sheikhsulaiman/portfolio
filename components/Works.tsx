@@ -5,8 +5,9 @@ import { Icons } from "./icons"
 
 async function fetchRepos() {
   const response = await fetch(
-    "https://api.github.com/users/sheikhsulaiman/repos",
-    { next: { revalidate: 60 } }
+    "https://api.github.com/users/sheikhsulaiman/repos"
+    // ,
+    // { next: { revalidate: 60 } }
   )
   const repos: [] = await response.json()
   return repos
