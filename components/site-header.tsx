@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { AlignJustify, X } from "lucide-react"
 
@@ -18,6 +18,15 @@ import {
 
 export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMounted,setIsMounted]=useState(false);
+
+  useEffect(()=>{
+    setIsMounted(true)
+  },[])
+
+  if(!isMounted){
+    return null
+  }
   return (
     <header className="sticky top-0 z-40 mx-auto w-full border-b bg-background">
       <div className="container flex h-16 items-center sm:justify-between sm:space-x-4">
