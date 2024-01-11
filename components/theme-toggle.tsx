@@ -11,6 +11,7 @@ export function ThemeToggle() {
 
   return (
     <Button
+    className="hidden sm:block"
       variant="ghost"
       size="icon"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}

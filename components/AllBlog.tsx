@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React ,{useEffect, useState} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Combobox } from "@/components/combo-box";
@@ -17,13 +17,25 @@ const AllBlog = ({
 }) => {
   const router = useRouter();
 
+  const [isMounted,setIsMounted]=useState(false);
+
+  useEffect(()=>{
+    setIsMounted(true)
+  },[])
+
+  
+
   const searchParams = useSearchParams();
   const selectedCategory = categories.includes(
     searchParams.get("category") as string
   )
     ? searchParams.get("category")
     : categories[0];
-
+    
+  if(!isMounted){
+      return null
+    }
+    
   return (
     <div className="w-full">
       <div className="container mt-6 mx-auto flex w-full items-center justify-between">

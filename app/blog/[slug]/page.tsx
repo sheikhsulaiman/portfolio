@@ -66,7 +66,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                         <div key={author._id} className=" flex  w-max gap-2">
                           <div className="flex -space-x-3 ">
                             <Avatar className="z-10">
-                              <AvatarImage src={urlForImage(author.image)} />
+                              <AvatarImage src={urlForImage(author.image) } alt={author.name} />
                               <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                           </div>
@@ -107,8 +107,8 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                       <div className="space-y-8 py-8 lg:py-0">
                         <div>
                           <div className="flex flex-wrap gap-2">
-                            {data.tags.map((tag) => (
-                              <Badge key={tag.tagname} variant="outline">{tag.tagname}</Badge>
+                            {data.tags.map((tag,index) => (
+                              <Badge key={index} variant="outline">{tag.tagname}</Badge>
                             ))}
                           </div>
                         </div>
@@ -118,7 +118,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                             {tocs.map((toc: string) => (
                               <Link
                                 className="block text-muted-foreground hover:text-primary"
-                                key={slugify(toc)}
+                                key={slugify(toc).toLowerCase()}
                                 href={"#" + slugify(toc).toLowerCase()}
                               >
                                 {toc}
@@ -130,7 +130,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                     </div>
                     <div>
                       <div className="mb-4">
-                        <div className="text-foreground text-sm">
+                        <div className="text-sm">
                           <h1 className="text-xl mb-4">Related Blogs</h1>
                           {data.relatedblogs &&
                             data.relatedblogs.map((relatedBlog) => (

@@ -56,8 +56,8 @@ export default function IndexPage() {
         <h1 className="text-center text-2xl">Skills</h1>
         {siteConfig.skills ? (
           <div className="flex flex-wrap items-center justify-around gap-4 pb-8 pt-6 md:py-10">
-            {siteConfig.skills.map((skill) => (
-              <p className="border-input hover:text-accent-foreground flex justify-center rounded-md border p-2 text-center sm:w-96">
+            {siteConfig.skills.map((skill,index) => (
+              <p key={index} className="border-input hover:text-accent-foreground flex justify-center rounded-md border p-2 text-center sm:w-96">
                 {skill}
               </p>
             ))}

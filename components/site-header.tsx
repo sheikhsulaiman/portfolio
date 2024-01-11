@@ -32,8 +32,8 @@ export function SiteHeader() {
           <MainNav items={siteConfig.mainNav} />
         </div>
 
-        <div className="flex items-center justify-end space-x-4">
-          <nav className="flex items-center gap-1 space-x-1">
+        <div className="flex items-center justify-end sm:space-x-4">
+          <nav className="flex items-center sm:gap-1 sm:space-x-1">
             <Link href={siteConfig.links.mail} target="_blank" rel="noreferrer">
               <div
                 className={buttonVariants({
