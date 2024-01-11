@@ -9,11 +9,6 @@ import {
 } from "@portabletext/react";
 import slugify from "slugify";
 
-const LinkableHeader = ({ children, value }: { children: any; value: any }) => {
-  // `value` is the single Portable Text block of this header
-  const slug = slugify(toPlainText(value));
-  return <h2 className="text-3xl py-10 font-bold" id={slug.toLowerCase()}>{children}</h2>;
-};
 
 export const RichText : PortableTextComponents = {
   types: {
@@ -36,14 +31,18 @@ export const RichText : PortableTextComponents = {
       <ul className="ml-10 py-5 list-disc space-y-5">{children}</ul>
     ),
   },
-  number: ({ children }: any) => (
-    <ol className="mt-lg list-decimal">{children}</ol>
-  ),
+  // number: ({ children }: any) => (
+  //   <ol className="mt-lg list-decimal">{children}</ol>
+  // ),
   block: {
     h1: ({ children }: any) => (
       <h1 className="text-4xl py-10 font-bold">{children}</h1>
     ),
-    h2: LinkableHeader,
+    h2: ({children, value}) => {
+      // `value` is the single Portable Text block of this header
+      const slug = slugify(toPlainText(value))
+      return <h2 className="text-3xl py-10 font-bold" id={slug.toLowerCase()}>{children}</h2>
+    },
     h3: ({ children }: any) => (
       <h3 className="text-2xl py-10 font-bold">{children}</h3>
     ),
