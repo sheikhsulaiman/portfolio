@@ -12,7 +12,7 @@ import slugify from "slugify";
 const LinkableHeader = ({ children, value }: { children: any; value: any }) => {
   // `value` is the single Portable Text block of this header
   const slug = slugify(toPlainText(value));
-  return <h2 id={slug}>{children}</h2>;
+  return <h2 className="text-3xl py-10 font-bold" id={slug.toLowerCase()}>{children}</h2>;
 };
 
 export const RichText : PortableTextComponents = {

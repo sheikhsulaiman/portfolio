@@ -108,7 +108,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                         <div>
                           <div className="flex flex-wrap gap-2">
                             {data.tags.map((tag) => (
-                              <Badge variant="outline">{tag.tagname}</Badge>
+                              <Badge key={tag.tagname} variant="outline">{tag.tagname}</Badge>
                             ))}
                           </div>
                         </div>
@@ -119,7 +119,7 @@ const BlogPage = async ({ params }: BlogPageProps) => {
                               <Link
                                 className="block text-muted-foreground hover:text-primary"
                                 key={slugify(toc)}
-                                href={"#" + slugify(toc)}
+                                href={"#" + slugify(toc).toLowerCase()}
                               >
                                 {toc}
                               </Link>
