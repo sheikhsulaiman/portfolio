@@ -18,6 +18,8 @@ const AllBlog = ({
   const router = useRouter();
 
   const [isMounted,setIsMounted]=useState(false);
+  
+  const [searchString,setSearchString] = useState<string>('')
 
   useEffect(()=>{
     setIsMounted(true)
@@ -35,7 +37,8 @@ const AllBlog = ({
   if(!isMounted){
       return null
     }
-    
+   
+
   return (
     <div className="w-full">
       <div className="container mt-6 mx-auto flex w-full items-center justify-between">
@@ -65,6 +68,7 @@ const AllBlog = ({
             <Search className="w-4 h-4 text-muted-foreground" />
 
             <Input
+              onChange={(e)=>{setSearchString(e.target.value)}}
               className="peer/input block box-border w-full rounded-md shadow-sm transition-all text-foreground focus-visible:shadow-md outline-none focus:ring-current focus:ring-2 focus-visible:border-foreground-muted focus-visible:ring-background-control placeholder-foreground-muted bg-foreground/[.026] border border-control text-sm leading-4 px-3 py-2 pl-10"
               placeholder="Search"
             />
@@ -78,7 +82,7 @@ const AllBlog = ({
       )}
       {blogs.length > 0 && (
         <ol className="container mx-auto grid grid-cols-12 py-10 lg:py-16 lg:gap-16">
-          {blogs.map((blog) => (
+          {blogs.filter((blog)=>{return searchString.toLowerCase()===''?blog:blog.title.toLowerCase().includes(searchString) || blog.subtitle.toLowerCase().includes(searchString) }).map((blog) => (
             <Card blog={blog} key={blog._id} />
           ))}
         </ol>
