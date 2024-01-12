@@ -31,7 +31,7 @@ export function Combobox({ categories }: { categories: string[] }) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between capitalize"
+          className="w-auto sm:w-[200px] justify-between capitalize"
         >
           {selectedCategory}
           <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
