@@ -47,8 +47,8 @@ export function Combobox({ categories }: { categories: string[] }) {
                 onSelect={(currentselectedCategory) => {
                   router.replace(
                     category === "all"
-                      ? "/"
-                      : `/?category=${currentselectedCategory}`,
+                      ? "/blog"
+                      : `/blog?category=${currentselectedCategory}`,
                     { scroll: false }
                   );
                   setOpen(false);
