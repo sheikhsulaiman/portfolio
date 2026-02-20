@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ======================================================
+    PAGE META — Edit title and description for SEO
+  ====================================================== -->
+  <title>Your Name — Developer</title>
+  <meta name="description" content="Freelance Web & Flutter Developer based in Bangladesh." />
+
+  <!-- ======================================================
+    FONTS
+    Headings  → "Playfair Display" (serif, editorial, CV-like)
+    Body text → "IBM Plex Sans" (clean, readable)
+    Labels    → "IBM Plex Mono" (technical, monospace)
+    Change at: https://fonts.google.com
+  ====================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <!-- ======================================================
+    DAISYUI + TAILWINDCSS — via CDN
+    DaisyUI: pre-built components (btn, badge, card …)
+    Tailwind: utility classes for spacing, layout, etc.
+  ====================================================== -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ======================================================
+    AOS — Animate On Scroll (scroll-reveal animations)
+    Usage: add data-aos="fade-up" to any HTML element
+    Docs:  https://michalsnik.github.io/aos/
+  ====================================================== -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    /* ======================================================
+      CSS CUSTOM PROPERTIES
+      Tweak these variables to restyle the entire site at once.
+    ====================================================== */
+    :root {
+      --font-heading : 'Playfair Display', serif;
+      --font-body    : 'IBM Plex Sans', sans-serif;
+      --font-mono    : 'IBM Plex Mono', monospace;
+
+      --bg           : #f9f8f6;   /* Page background — warm off-white      */
+      --surface      : #f1ede7;   /* Card/tag backgrounds                  */
+      --border       : #e2dbd3;   /* Dividers and borders                  */
+      --text         : #1c1a18;   /* Primary text — near black             */
+      --muted        : #8a8078;   /* Secondary / placeholder text          */
+      --accent       : #b84a1a;   /* ★ MAIN ACCENT — change this freely ★  */
+      --accent-soft  : #f5ece7;   /* Light tint of accent for hover states */
+    }
+
+    /* ======================================================
+      BASE RESET
+    ====================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Keep scroll-behavior: auto — Lenis handles smooth scrolling instead */
+    html { scroll-behavior: auto; }
+
+    body {
+      background : var(--bg);
+      color      : var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.75;
+      overflow-x : hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      line-height : 1.2;
+    }
+
+    /* Monospace label — used for section numbers, tags, dates */
+    .mono {
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Text selection color */
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar       { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+    /* ======================================================
+      NAVBAR
+      Fixed at top. Hides on scroll-down, shows on scroll-up.
+      Controlled in the JS section (scroll event listener).
+    ====================================================== */
+    #navbar {
+      position  : fixed;
+      top: 0; left: 0; right: 0;
+      z-index   : 999;
+      height    : 56px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display   : flex;
+      align-items     : center;
+      justify-content : space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    /* Added by JS when scrolling down */
+    #navbar.nav-hidden { transform: translateY(-100%); opacity: 0; }
+
+    .nav-logo {
+      font-family   : var(--font-mono);
+      font-size     : 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color         : var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color         : var(--muted);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom : 1px solid transparent;
+      transition    : color 0.2s, border-color 0.2s;
+    }
+
+    /* Active state toggled by IntersectionObserver in JS */
+    .nav-links a:hover,
+    .nav-links a.active {
+      color        : var(--accent);
+      border-color : var(--accent);
+    }
+
+    /* Hamburger — visible only on mobile */
+    #nav-hamburger {
+      display       : none;
+      flex-direction: column;
+      gap: 5px;
+      background    : none;
+      border        : none;
+      cursor        : pointer;
+      padding       : 4px;
+    }
+
+    #nav-hamburger span {
+      display   : block;
+      width     : 22px;
+      height    : 1px;
+      background: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile navigation drawer */
+    #mobile-menu {
+      display       : none;      /* flex when .open is added by JS */
+      position      : fixed;
+      top: 56px; left: 0; right: 0;
+      background    : var(--bg);
+      border-bottom : 1px solid var(--border);
+      padding       : 1.5rem clamp(1.5rem, 5vw, 4rem);
+      z-index       : 998;
+      flex-direction: column;
+      gap           : 1.2rem;
+    }
+
+    #mobile-menu.open { display: flex; }
+
+    #mobile-menu a {
+      font-family   : var(--font-mono);
+      font-size     : 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color         : var(--muted);
+      text-decoration: none;
+    }
+
+    /* ======================================================
+      SHARED SECTION LAYOUT
+    ====================================================== */
+    .section {
+      max-width: 860px;
+      margin   : 0 auto;
+      padding  : clamp(4rem, 10vh, 7rem) clamp(1.5rem, 5vw, 2rem);
+    }
+
+    /* Section header: "01 — About" */
+    .section-header {
+      display    : flex;
+      align-items: baseline;
+      gap        : 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-number {
+      color         : var(--accent);
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.1em;
+      min-width     : 2ch;
+    }
+
+    .section-title { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+
+    /* Full-width thin divider between sections */
+    .section-divider {
+      border    : none;
+      border-top: 1px solid var(--border);
+      max-width : 860px;
+      margin    : 0 auto;
+    }
+
+    /* Offset for fixed navbar when jumping to anchors */
+    [id] { scroll-margin-top: 72px; }
+
+    /* ======================================================
+      HERO SECTION
+    ====================================================== */
+    #hero {
+      min-height   : 100vh;
+      display      : flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width    : 860px;
+      margin       : 0 auto;
+      padding      : 120px clamp(1.5rem, 5vw, 2rem) 80px;
+    }
+
+    /* "Available for work" pill */
+    .hero-status {
+      display    : inline-flex;
+      align-items: center;
+      gap        : 0.5rem;
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color      : var(--muted);
+      margin-bottom: 2rem;
+      opacity    : 0;  /* GSAP animates in */
+    }
+
+    .status-dot {
+      width        : 7px;
+      height       : 7px;
+      border-radius: 50%;
+      background   : #4caf50; /* Green = available; change to #f59e0b if busy */
+      animation    : blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.25; }
+    }
+
+    .hero-name {
+      font-size     : clamp(3.2rem, 9vw, 6.5rem);
+      letter-spacing: -0.02em;
+      margin-bottom : 0.4rem;
+      opacity: 0; /* GSAP animates in */
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-style : italic;
+      font-size  : clamp(1rem, 2.5vw, 1.4rem);
+      color      : var(--muted);
+      margin-bottom: 2.5rem;
+      opacity: 0; /* GSAP animates in */
+    }
+
+    .hero-bio {
+      max-width  : 520px;
+      font-size  : 0.95rem;
+      color      : var(--muted);
+      margin-bottom: 2.5rem;
+      opacity: 0; /* GSAP animates in */
+    }
+
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; /* GSAP */ }
+
+    /* ======================================================
+      ABOUT — Two-column grid
+    ====================================================== */
+    .about-grid {
+      display              : grid;
+      grid-template-columns: 1fr 1fr;
+      gap                  : 3rem;
+    }
+
+    /* Individual info row: label above, value below */
+    .info-item {
+      display       : flex;
+      flex-direction: column;
+      gap           : 0.15rem;
+      padding-bottom: 1rem;
+      border-bottom : 1px solid var(--border);
+    }
+
+    .info-label {
+      font-family   : var(--font-mono);
+      font-size     : 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color         : var(--muted);
+    }
+
+    .info-value { font-size: 0.92rem; }
+
+    /* ======================================================
+      SKILLS — Tag cloud, grouped by category
+    ====================================================== */
+    .skills-group { margin-bottom: 2rem; }
+
+    .skills-group-label {
+      font-family   : var(--font-mono);
+      font-size     : 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color         : var(--muted);
+      margin-bottom : 0.8rem;
+    }
+
+    .skills-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .skill-tag {
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.06em;
+      padding       : 0.3rem 0.75rem;
+      border        : 1px solid var(--border);
+      border-radius : 2px;
+      color         : var(--text);
+      background    : transparent;
+      transition    : background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .skill-tag:hover {
+      background  : var(--accent-soft);
+      border-color: var(--accent);
+      color       : var(--accent);
+    }
+
+    /* ======================================================
+      EXPERIENCE / EDUCATION — Timeline
+    ====================================================== */
+    .timeline-item {
+      display              : grid;
+      grid-template-columns: 160px 1fr;
+      gap                  : 1.5rem;
+      padding              : 1.8rem 0;
+      border-bottom        : 1px solid var(--border);
+    }
+
+    .timeline-item:first-child { border-top: 1px solid var(--border); }
+
+    .timeline-date {
+      font-family   : var(--font-mono);
+      font-size     : 0.7rem;
+      letter-spacing: 0.08em;
+      color         : var(--muted);
+      padding-top   : 0.2rem;
+      line-height   : 1.6;
+    }
+
+    .timeline-location {
+      font-family   : var(--font-mono);
+      font-size     : 0.65rem;
+      letter-spacing: 0.06em;
+      color         : var(--border);
+      margin-top    : 0.2rem;
+    }
+
+    .timeline-role {
+      font-size    : 1.05rem;
+      font-family  : var(--font-heading);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-org {
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.06em;
+      color         : var(--accent);
+      margin-bottom : 0.6rem;
+    }
+
+    .timeline-desc { font-size: 0.9rem; color: var(--muted); }
+
+    /* ======================================================
+      PROJECTS — Card grid
+    ====================================================== */
+    .projects-grid {
+      display              : grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap                  : 1.2rem;
+    }
+
+    .project-card {
+      border         : 1px solid var(--border);
+      border-radius  : 3px;
+      padding        : 1.6rem;
+      background     : var(--bg);
+      color          : var(--text);
+      text-decoration: none;
+      display        : block;
+      transition     : border-color 0.2s, background 0.2s, transform 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      background  : var(--accent-soft);
+      transform   : translateY(-3px);
+    }
+
+    .project-type {
+      font-family   : var(--font-mono);
+      font-size     : 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color         : var(--muted);
+      margin-bottom : 0.6rem;
+    }
+
+    .project-name {
+      font-family  : var(--font-heading);
+      font-size    : 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size    : 0.88rem;
+      color        : var(--muted);
+      margin-bottom: 1rem;
+      line-height  : 1.65;
+    }
+
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .stack-tag {
+      font-family   : var(--font-mono);
+      font-size     : 0.65rem;
+      letter-spacing: 0.06em;
+      padding       : 0.2rem 0.55rem;
+      background    : var(--surface);
+      border        : 1px solid var(--border);
+      border-radius : 2px;
+      color         : var(--muted);
+    }
+
+    /* ======================================================
+      CONTACT — Two-column layout
+    ====================================================== */
+    .contact-grid {
+      display              : grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap                  : 4rem;
+    }
+
+    .contact-info p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .contact-link {
+      display        : flex;
+      align-items    : center;
+      gap            : 0.6rem;
+      font-family    : var(--font-mono);
+      font-size      : 0.72rem;
+      letter-spacing : 0.06em;
+      color          : var(--muted);
+      text-decoration: none;
+      transition     : color 0.2s;
+    }
+
+    .contact-link:hover { color: var(--accent); }
+
+    /* Minimal underline-only input fields — CV look */
+    .cv-input {
+      width        : 100%;
+      background   : transparent;
+      border       : none;
+      border-bottom: 1px solid var(--border);
+      padding      : 0.6rem 0;
+      font-family  : var(--font-body);
+      font-size    : 0.9rem;
+      font-weight  : 300;
+      color        : var(--text);
+      outline      : none;
+      transition   : border-color 0.2s;
+      margin-bottom: 1.4rem;
+      display      : block;
+    }
+
+    .cv-input:focus { border-bottom-color: var(--accent); }
+    .cv-input::placeholder { color: var(--muted); font-size: 0.85rem; }
+
+    /* ======================================================
+      FOOTER
+    ====================================================== */
+    #footer {
+      border-top: 1px solid var(--border);
+      max-width : 860px;
+      margin    : 0 auto;
+      padding   : 2rem clamp(1.5rem, 5vw, 2rem);
+      display   : flex;
+      align-items     : center;
+      justify-content : space-between;
+      flex-wrap : wrap;
+      gap       : 1rem;
+    }
+
+    .footer-copy {
+      font-family   : var(--font-mono);
+      font-size     : 0.68rem;
+      letter-spacing: 0.08em;
+      color         : var(--muted);
+    }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    .footer-links a {
+      font-family   : var(--font-mono);
+      font-size     : 0.68rem;
+      letter-spacing: 0.08em;
+      color         : var(--muted);
+      text-decoration: none;
+      transition    : color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ======================================================
+      TOAST NOTIFICATION — bottom-right, shown after form submit
+    ====================================================== */
+    #toast {
+      position     : fixed;
+      bottom: 2rem; right: 2rem;
+      z-index      : 9999;
+      font-family  : var(--font-mono);
+      font-size    : 0.72rem;
+      letter-spacing: 0.06em;
+      padding      : 0.75rem 1.4rem;
+      background   : var(--text);
+      color        : var(--bg);
+      border-radius: 3px;
+      opacity      : 0;
+      transform    : translateY(10px);
+      pointer-events: none;
+      transition   : opacity 0.3s, transform 0.3s;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ======================================================
+      PAGE LOADER — fades out via GSAP after load
+    ====================================================== */
+    #loader {
+      position  : fixed;
+      inset     : 0;
+      z-index   : 9998;
+      background: var(--bg);
+      display   : flex;
+      align-items     : center;
+      justify-content : center;
+    }
+
+    .loader-text {
+      font-family   : var(--font-mono);
+      font-size     : 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color         : var(--muted);
+    }
+
+    /* ======================================================
+      RESPONSIVE BREAKPOINTS
+    ====================================================== */
+    @media (max-width: 720px) {
+      /* Hide desktop nav links, show hamburger */
+      .nav-links     { display: none; }
+      #nav-hamburger { display: flex;  }
+
+      /* Stack about grid */
+      .about-grid    { grid-template-columns: 1fr; }
+
+      /* Stack timeline — date above content */
+      .timeline-item { grid-template-columns: 1fr; gap: 0.4rem; }
+
+      /* Stack contact grid */
+      .contact-grid  { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================================================
+    PAGE LOADER
+    GSAP fades this out after animations are ready.
+  ====================================================== -->
+  <div id="loader">
+    <span class="loader-text">Loading…</span>
+  </div>
+
+  <!-- ======================================================
+    TOAST — bottom-right notification (shown on form submit)
+  ====================================================== -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ======================================================
+    NAVBAR
+  ====================================================== -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+
+    <!-- EDIT: Change to your initials or short handle -->
+    <a href="#hero" class="nav-logo">YN</a>
+
+    <!-- Desktop links -->
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- Hamburger button (mobile only) -->
+    <button id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+    <a href="#about"      class="mobile-nav-link">About</a>
+    <a href="#skills"     class="mobile-nav-link">Skills</a>
+    <a href="#experience" class="mobile-nav-link">Experience</a>
+    <a href="#projects"   class="mobile-nav-link">Projects</a>
+    <a href="#contact"    class="mobile-nav-link">Contact</a>
+  </div>
+
+
+  <!-- ======================================================
+    HERO — The opening screen
+  ====================================================== -->
+  <section id="hero" aria-label="Introduction">
+
+    <!-- Availability status — change dot color and text as needed -->
+    <span class="hero-status" id="hero-status">
+      <span class="status-dot"></span>
+      Available for freelance work
+    </span>
+
+    <!-- EDIT: Your real name -->
+    <h1 class="hero-name" id="hero-name">Your Name.</h1>
+
+    <!-- EDIT: One-line role description -->
+    <p class="hero-subtitle" id="hero-subtitle">
+      Web &amp; Flutter Developer, Bangladesh
+    </p>
+
+    <!-- EDIT: 2–3 sentence bio shown in the hero -->
+    <p class="hero-bio" id="hero-bio">
+      I build clean, performant web and mobile experiences.
+      Currently studying Educational Technology &amp; Engineering while
+      taking freelance projects that solve real problems for real people.
+    </p>
+
+    <!-- EDIT: Update href="#" on the CV button to point to your actual PDF -->
+    <div class="hero-cta" id="hero-cta">
+      <a href="#contact"
+         class="btn btn-sm rounded-none"
+         style="background:var(--accent);border-color:var(--accent);color:#fff;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;">
+        Get in Touch
+      </a>
+      <a href="#"
+         target="_blank"
+         class="btn btn-sm btn-outline rounded-none"
+         style="border-color:var(--border);color:var(--muted);font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;">
+        Download CV ↓
+      </a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ======================================================
+    ABOUT — Personal details + short bio
+  ====================================================== -->
+  <section id="about" aria-label="About me">
+    <div class="section">
+
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-number">01</span>
+        <h2 class="section-title">About</h2>
+      </div>
+
+      <div class="about-grid">
+
+        <!-- Left: CV-style personal info table -->
+        <div data-aos="fade-up" data-aos-delay="60">
+
+          <!-- EDIT each .info-item value -->
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Full Name</span>
+            <span class="info-value">Your Full Name</span>   <!-- EDIT -->
+          </div>
+
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Location</span>
+            <span class="info-value">Bangladesh</span>       <!-- EDIT -->
+          </div>
+
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Degree</span>
+            <span class="info-value">
+              BSc, Educational Technology &amp; Engineering<br />
+              <span style="color:var(--muted);font-size:0.85rem;">University of Frontier Technology, Bangladesh</span>
+            </span>
+          </div>
+
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Expected Graduation</span>
+            <!-- Update this date if it changes -->
+            <span class="info-value">September 27, 2026</span>
+          </div>
+
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Status</span>
+            <span class="info-value" style="color:var(--accent);">Open to Freelance &amp; Part-time</span>
+          </div>
+
+          <div class="info-item" style="margin-bottom:1.2rem;">
+            <span class="info-label">Email</span>
+            <!-- EDIT: Your real email -->
+            <span class="info-value">
+              <a href="mailto:you@email.com" style="color:var(--text);text-underline-offset:3px;text-decoration:underline;">
+                you@email.com
+              </a>
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Right: About paragraphs -->
+        <div data-aos="fade-up" data-aos-delay="120">
+
+          <!-- EDIT: Write your own about text below -->
+          <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1.2rem;">
+            I'm a freelance developer based in Bangladesh specializing in responsive
+            web apps and cross-platform mobile development with Flutter. My background
+            in Educational Technology gives me a user-first lens when building products.
+          </p>
+
+          <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1.2rem;">
+            I work with clients from initial brief to final deployment — handling both
+            the front-end polish and back-end logic. Currently juggling my final year
+            of studies with an active client portfolio.
+          </p>
+
+          <p style="color:var(--muted);font-size:0.95rem;">
+            When I'm not coding, I'm exploring EdTech tools, contributing to open-source,
+            or learning something new in the ever-moving world of web standards.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ======================================================
+    SKILLS — Tag groups by category
+    Add/remove .skill-tag elements or entire .skills-group blocks
+  ====================================================== -->
+  <section id="skills" aria-label="Skills">
+    <div class="section">
+
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Skills</h2>
+      </div>
+
+      <!-- GROUP 1: Web -->
+      <div class="skills-group" data-aos="fade-up" data-aos-delay="60">
+        <p class="skills-group-label">Web Development</p>
+        <div class="skills-tags">
+          <!-- EDIT: Add or remove tags to match your actual skills -->
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript (ES6+)</span>
+          <span class="skill-tag">TailwindCSS</span>
+          <span class="skill-tag">DaisyUI</span>
+          <span class="skill-tag">React — Learning</span>
+          <span class="skill-tag">Node.js — Learning</span>
+        </div>
+      </div>
+
+      <!-- GROUP 2: Mobile -->
+      <div class="skills-group" data-aos="fade-up" data-aos-delay="100">
+        <p class="skills-group-label">Mobile Development</p>
+        <div class="skills-tags">
+          <!-- EDIT -->
+          <span class="skill-tag">Flutter</span>
+          <span class="skill-tag">Dart</span>
+          <span class="skill-tag">Firebase</span>
+        </div>
+      </div>
+
+      <!-- GROUP 3: Tools -->
+      <div class="skills-group" data-aos="fade-up" data-aos-delay="140">
+        <p class="skills-group-label">Tools &amp; Workflow</p>
+        <div class="skills-tags">
+          <!-- EDIT -->
+          <span class="skill-tag">Git &amp; GitHub</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Linux (Ubuntu)</span>
+        </div>
+      </div>
+
+      <!-- GROUP 4: Other -->
+      <div class="skills-group" data-aos="fade-up" data-aos-delay="180">
+        <p class="skills-group-label">Other</p>
+        <div class="skills-tags">
+          <!-- EDIT -->
+          <span class="skill-tag">Instructional Design</span>
+          <span class="skill-tag">Content Writing</span>
+          <span class="skill-tag">Problem Solving</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ======================================================
+    EXPERIENCE — Most recent item first
+    Duplicate a .timeline-item block to add more entries.
+  ====================================================== -->
+  <section id="experience" aria-label="Experience and education">
+    <div class="section">
+
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Experience</h2>
+      </div>
+
+      <div>
+
+        <!-- ITEM 1 — EDIT all fields -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="60">
+          <div>
+            <p class="timeline-date">2024 — Present</p>  <!-- EDIT -->
+            <p class="timeline-location">Remote</p>      <!-- EDIT -->
+          </div>
+          <div>
+            <h3 class="timeline-role">Freelance Web Developer</h3>        <!-- EDIT -->
+            <p class="timeline-org">Self-employed</p>                      <!-- EDIT -->
+            <p class="timeline-desc">
+              <!-- EDIT: Describe what you did/do in this role -->
+              Building responsive websites and small web apps for clients.
+              Managing full project lifecycle from scope to deployment using
+              HTML, CSS, JavaScript, and TailwindCSS.
+            </p>
+          </div>
+        </div>
+
+        <!-- ITEM 2 — Your university -->
+        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+          <div>
+            <p class="timeline-date">2023 — Present</p>
+            <p class="timeline-location">Bangladesh</p>
+          </div>
+          <div>
+            <h3 class="timeline-role">BSc — Educational Technology &amp; Engineering</h3>
+            <p class="timeline-org">University of Frontier Technology</p>
+            <p class="timeline-desc">
+              Studying the intersection of technology and education covering
+              instructional design, software development, multimedia, and
+              learning systems. Expected graduation: September 27, 2026.
+            </p>
+          </div>
+        </div>
+
+        <!-- ADD MORE ITEMS HERE — copy a .timeline-item block above -->
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ======================================================
+    PROJECTS — Each card links to a live demo or GitHub repo
+    Duplicate a .project-card block to add more projects.
+  ====================================================== -->
+  <section id="projects" aria-label="Projects">
+    <div class="section">
+
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Projects</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- CARD 1 — EDIT href, type, name, description, stack tags -->
+        <a href="#" target="_blank" class="project-card" data-aos="fade-up" data-aos-delay="60">
+          <p class="project-type">Web App</p>                          <!-- EDIT -->
+          <h3 class="project-name">Project Name One</h3>              <!-- EDIT -->
+          <p class="project-desc">
+            Short description of what the project does and what problem
+            it solves. Keep it to 2–3 sentences maximum.              <!-- EDIT -->
+          </p>
+          <div class="project-stack">
+            <!-- EDIT: Add/remove tech tags -->
+            <span class="stack-tag">HTML</span>
+            <span class="stack-tag">TailwindCSS</span>
+            <span class="stack-tag">JavaScript</span>
+          </div>
+        </a>
+
+        <!-- CARD 2 — EDIT -->
+        <a href="#" target="_blank" class="project-card" data-aos="fade-up" data-aos-delay="100">
+          <p class="project-type">Flutter App</p>                     <!-- EDIT -->
+          <h3 class="project-name">Project Name Two</h3>             <!-- EDIT -->
+          <p class="project-desc">
+            Description of a Flutter app you built — what it does, who
+            uses it, and any notable technical decisions.             <!-- EDIT -->
+          </p>
+          <div class="project-stack">
+            <!-- EDIT -->
+            <span class="stack-tag">Flutter</span>
+            <span class="stack-tag">Dart</span>
+            <span class="stack-tag">Firebase</span>
+          </div>
+        </a>
+
+        <!-- CARD 3 — EDIT -->
+        <a href="#" target="_blank" class="project-card" data-aos="fade-up" data-aos-delay="140">
+          <p class="project-type">Website</p>                         <!-- EDIT -->
+          <h3 class="project-name">Project Name Three</h3>           <!-- EDIT -->
+          <p class="project-desc">
+            Another project. Keep descriptions concise but informative
+            so a recruiter can scan quickly.                          <!-- EDIT -->
+          </p>
+          <div class="project-stack">
+            <!-- EDIT -->
+            <span class="stack-tag">HTML</span>
+            <span class="stack-tag">CSS</span>
+          </div>
+        </a>
+
+        <!-- ADD MORE CARDS HERE by duplicating a .project-card block above -->
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+
+  <!-- ======================================================
+    CONTACT — EmailJS powers the form (no backend needed)
+    SETUP GUIDE:
+      1. Create a free account at https://emailjs.com
+      2. Add an email service (Gmail, Outlook, etc.)
+      3. Create a template — use these variables exactly:
+           {{from_name}}  {{from_email}}  {{subject}}  {{message}}
+      4. Go to Account > API Keys and copy your Public Key
+      5. Replace the three placeholder strings in the JS below:
+           EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID
+  ====================================================== -->
+  <section id="contact" aria-label="Contact">
+    <div class="section">
+
+      <div class="section-header" data-aos="fade-up">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Contact</h2>
+      </div>
+
+      <div class="contact-grid">
+
+        <!-- Left: intro + links -->
+        <div data-aos="fade-up" data-aos-delay="60">
+          <p class="contact-info">
+            <!-- EDIT: Your contact intro blurb -->
+            Open to freelance projects, internships, or just a conversation
+            about technology and ideas. I usually respond within 24 hours.
+          </p>
+          <div class="contact-links" style="margin-top:1.5rem;">
+            <!-- EDIT: Replace with your real links/email -->
+            <a href="mailto:you@email.com" class="contact-link">
+              <span class="mono" style="min-width:5rem;">Email</span>
+              <span style="color:var(--border);padding:0 0.2rem;">—</span>
+              you@email.com
+            </a>
+            <a href="https://github.com/yourusername" target="_blank" class="contact-link">
+              <span class="mono" style="min-width:5rem;">GitHub</span>
+              <span style="color:var(--border);padding:0 0.2rem;">—</span>
+              github.com/yourusername
+            </a>
+            <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-link">
+              <span class="mono" style="min-width:5rem;">LinkedIn</span>
+              <span style="color:var(--border);padding:0 0.2rem;">—</span>
+              linkedin.com/in/yourusername
+            </a>
+            <!-- ADD more social links here following the same pattern -->
+          </div>
+        </div>
+
+        <!-- Right: form (no <form> tag — EmailJS uses JS) -->
+        <div data-aos="fade-up" data-aos-delay="120">
+          <div id="contact-form">
+
+            <!-- EDIT: Placeholder text is optional to change -->
+            <input  type="text"  id="from_name"  class="cv-input" placeholder="Your Name"    autocomplete="name"  />
+            <input  type="email" id="from_email" class="cv-input" placeholder="Your Email"   autocomplete="email" />
+            <input  type="text"  id="subject"    class="cv-input" placeholder="Subject"                           />
+            <textarea            id="message"    class="cv-input" placeholder="Your message…" rows="4" style="resize:vertical;"></textarea>
+
+            <button
+              id="submit-btn"
+              type="button"
+              onclick="sendEmail()"
+              class="btn btn-sm rounded-none"
+              style="background:var(--accent);border-color:var(--accent);color:#fff;font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;"
+            >
+              Send Message →
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================
+    FOOTER
+  ====================================================== -->
+  <footer id="footer" aria-label="Footer">
+    <!-- Year is auto-updated by JS — no manual changes needed -->
+    <p class="footer-copy">&copy; <span id="footer-year"></span> Your Name</p>  <!-- EDIT: Your name -->
+    <div class="footer-links">
+      <!-- EDIT: Your real links -->
+      <a href="https://github.com/yourusername"     target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+      <a href="mailto:you@email.com">Email</a>
+    </div>
+  </footer>
+
+
+  <!-- ==============================================================
+    SCRIPTS — Load order is important, do not reorder.
+      1. Lenis       (smooth scroll)
+      2. GSAP core   (animation engine)
+      3. ScrollTrigger plugin (scroll-linked animations)
+      4. AOS         (scroll-reveal)
+      5. EmailJS     (form sending)
+      6. Our code    (always last)
+  ============================================================== -->
+
+  <!-- 1. Lenis — smooth scrolling -->
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <!-- 2. GSAP core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- 3. GSAP ScrollTrigger plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- 4. AOS — Animate on Scroll -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- 5. EmailJS browser SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    /* ==============================================================
+      ★ EMAILJS CONFIGURATION
+      ── Replace these three strings with your real values ──
+      How to get them:
+        1. Sign up at https://emailjs.com (free tier is enough)
+        2. Connect a service (Gmail, Outlook, etc.)
+        3. Create a template — add these variables in the template body:
+               {{from_name}}  {{from_email}}  {{subject}}  {{message}}
+        4. Copy your Public Key from Account > API Keys
+    ============================================================== */
+    const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // e.g. "abc123XYZ"
+    const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // e.g. "service_xxxxxx"
+    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // e.g. "template_xxxxxx"
+
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+
+    /* ==============================================================
+      LENIS — Smooth Scrolling Setup
+      Lenis replaces the browser's default scroll with a smooth,
+      momentum-based version. We also hook it into GSAP's ticker
+      so ScrollTrigger positions stay accurate.
+    ============================================================== */
+    const lenis = new Lenis({
+      duration : 1.2,   // Scroll animation length in seconds (increase = slower/smoother)
+      easing   : (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth   : true,
+    });
+
+    /* Connect Lenis to GSAP — required for ScrollTrigger accuracy */
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0); /* Prevents jumpiness after switching tabs */
+
+    /* Make all anchor links use Lenis smooth scroll */
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute("href"));
+        if (target) lenis.scrollTo(target, { offset: -65 }); // -65 = navbar height
+      });
+    });
+
+
+    /* ==============================================================
+      GSAP — Page Load Animation Timeline
+      Runs once on page load. Sequence:
+        1. Fade out loader overlay
+        2. Stagger hero elements in from below
+    ============================================================== */
+    const tl = gsap.timeline({
+      onComplete: () => {
+        /* Remove loader from DOM flow once animation is done */
+        document.getElementById("loader").style.display = "none";
+      }
+    });
+
+    /* Step 1: Fade out loader */
+    tl.to("#loader", { opacity: 0, duration: 0.5, ease: "power2.out" });
+
+    /* Step 2: Stagger hero elements — each starts before the previous ends ("-=0.x") */
+    tl.from("#hero-status",   { y: 14, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.1")
+      .from("#hero-name",     { y: 32, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.35")
+      .from("#hero-subtitle", { y: 20, opacity: 0, duration: 0.7, ease: "power3.out" }, "-=0.45")
+      .from("#hero-bio",      { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+      .from("#hero-cta",      { y: 12, opacity: 0, duration: 0.5, ease: "power3.out" }, "-=0.35");
+
+
+    /* ==============================================================
+      AOS — Animate on Scroll Initialization
+      Elements using data-aos="fade-up" will animate in as they
+      enter the viewport. All settings configurable here.
+    ============================================================== */
+    AOS.init({
+      duration : 650,       /* Animation length in ms */
+      easing   : "ease-out",
+      once     : true,      /* Only animate each element once */
+      offset   : 60,        /* px from viewport edge to trigger */
+    });
+
+
+    /* ==============================================================
+      NAVBAR — Hide on scroll-down, show on scroll-up
+      This makes the navbar stay out of the way when reading
+      but come back when the user moves upward.
+    ============================================================== */
+    let lastScrollY = 0;
+    const navbar   = document.getElementById("navbar");
+
+    window.addEventListener("scroll", () => {
+      const currentY = window.scrollY;
+
+      if (currentY > lastScrollY && currentY > 90) {
+        navbar.classList.add("nav-hidden");    /* Scrolling down → hide */
+      } else {
+        navbar.classList.remove("nav-hidden"); /* Scrolling up   → show */
+      }
+
+      lastScrollY = currentY;
+    }, { passive: true }); /* passive: true improves scroll performance */
+
+
+    /* ==============================================================
+      NAVBAR — Active section highlight via IntersectionObserver
+      Watches each <section> and adds .active to the matching
+      nav link when that section is roughly centered in the viewport.
+    ============================================================== */
+    const allSections  = document.querySelectorAll("section[id]");
+    const allNavLinks  = document.querySelectorAll(".nav-links a");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            allNavLinks.forEach((link) => link.classList.remove("active"));
+            const match = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+            if (match) match.classList.add("active");
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px" } /* Trigger when section occupies the middle band */
+    );
+
+    allSections.forEach((s) => observer.observe(s));
+
+
+    /* ==============================================================
+      HAMBURGER MENU — Toggle mobile nav drawer
+    ============================================================== */
+    const hamburger  = document.getElementById("nav-hamburger");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    hamburger.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.toggle("open");
+      hamburger.setAttribute("aria-expanded", isOpen);
+
+      /* Animate hamburger bars into × when open */
+      const bars = hamburger.querySelectorAll("span");
+      bars[0].style.transform  = isOpen ? "translateY(6px) rotate(45deg)"  : "";
+      bars[1].style.opacity    = isOpen ? "0"  : "1";
+      bars[2].style.transform  = isOpen ? "translateY(-6px) rotate(-45deg)" : "";
+    });
+
+    /* Close mobile menu when a link is clicked */
+    document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        hamburger.setAttribute("aria-expanded", "false");
+        const bars = hamburger.querySelectorAll("span");
+        bars[0].style.transform = bars[2].style.transform = "";
+        bars[1].style.opacity   = "1";
+      });
+    });
+
+
+    /* ==============================================================
+      SEND EMAIL — Called by the contact form submit button
+      Reads the four input fields, validates them, then sends via
+      EmailJS. Shows a toast on success or failure.
+    ============================================================== */
+    function sendEmail() {
+      const name    = document.getElementById("from_name").value.trim();
+      const email   = document.getElementById("from_email").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const btn     = document.getElementById("submit-btn");
+
+      /* Validation: all fields required */
+      if (!name || !email || !subject || !message) {
+        showToast("Please fill in all fields.", true);
+        return;
+      }
+
+      /* Validation: basic email format */
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast("Please enter a valid email address.", true);
+        return;
+      }
+
+      /* Disable button to prevent double submission */
+      btn.disabled    = true;
+      btn.textContent = "Sending…";
+
+      /* Send via EmailJS — variable names must match your template */
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name : name,
+        from_email: email,
+        subject   : subject,
+        message   : message,
+      })
+      .then(() => {
+        showToast("Message sent! I'll reply soon.");
+        /* Clear all fields on success */
+        ["from_name", "from_email", "subject", "message"].forEach(
+          (id) => (document.getElementById(id).value = "")
+        );
+      })
+      .catch((err) => {
+        console.error("EmailJS error:", err); /* Check browser console for details */
+        showToast("Something went wrong. Try emailing me directly.", true);
+      })
+      .finally(() => {
+        btn.disabled    = false;
+        btn.textContent = "Send Message →";
+      });
+    }
+
+
+    /* ==============================================================
+      TOAST HELPER — Shows a small bottom-right notification
+      message  : string to display
+      isError  : true → red background, false → dark background
+    ============================================================== */
+    function showToast(message, isError = false) {
+      const toast     = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.background = isError ? "#c0392b" : "var(--text)";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3500); /* Auto-hide after 3.5s */
+    }
+
+
+    /* ==============================================================
+      FOOTER — Auto-update copyright year
+      Inserts the current year so it never gets stale.
+    ============================================================== */
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+
+  </script>
+</body>
+</html>
