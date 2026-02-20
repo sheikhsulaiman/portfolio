@@ -1,0 +1,31 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./input.css -o ./output.css --minify",
+    "build": "tailwindcss -i ./input.css -o ./styles.css --minify",
+    "dev:css": "tailwindcss -i ./input.css -o ./styles.css --watch",
+    "dev": "start index.html && npm run dev:css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheikhsulaiman/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sheikhsulaiman/portfolio/issues"
+  },
+  "homepage": "https://github.com/sheikhsulaiman/portfolio#readme",
+  "devDependencies": {
+    "tailwindcss": "^4.2.0"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.2.0"
+  }
+}
