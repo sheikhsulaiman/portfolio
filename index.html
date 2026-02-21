@@ -838,6 +838,21 @@
           gap: 2rem;
         }
       }
+
+      /* ======================================================
+      LARGE SCREEN ZOOM
+      On displays ≥ 1440px, apply a 125% browser-level zoom so
+      the layout fills the screen without changing any values.
+    ====================================================== */
+      @media (min-width: 1440px) {
+        html {
+          zoom: 1.25;
+        }
+        /* Compensate hero vh: 100vh ÷ 1.25 = 80vh renders as full viewport height */
+        #hero {
+          min-height: 80vh;
+        }
+      }
     </style>
   </head>
 
