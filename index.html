@@ -785,7 +785,10 @@
       }
 
       /* ======================================================
-      PAGE LOADER — fades out via GSAP after load
+      PAGE LOADER — fades out via GSAP after load.
+      CSS @keyframes provide a guaranteed fallback: if GSAP
+      never loads, the loader fades out and hides itself after
+      1.2 s via animation alone.
     ====================================================== */
       #loader {
         position: fixed;
@@ -795,6 +798,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        /* Fallback: fade out after 0.8 s delay, then stay hidden */
+        animation: loaderFadeOut 0.5s ease 0.7s forwards;
+      }
+
+      @keyframes loaderFadeOut {
+        to {
+          opacity: 0;
+          pointer-events: none;
+          visibility: hidden;
+        }
       }
 
       .loader-text {
@@ -803,6 +816,16 @@
         letter-spacing: 0.2em;
         text-transform: uppercase;
         color: var(--muted);
+      }
+
+      /* Hero elements are visible by default; GSAP animates them
+         in from opacity:0 if it loads in time. */
+      #hero-status,
+      #hero-name,
+      #hero-subtitle,
+      #hero-bio,
+      #hero-cta {
+        opacity: 1 !important;
       }
 
       /* ======================================================
@@ -1537,7 +1560,9 @@
       const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; // e.g. "service_xxxxxx"
       const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // e.g. "template_xxxxxx"
 
-      emailjs.init(EMAILJS_PUBLIC_KEY);
+      if (typeof emailjs !== "undefined") {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+      }
 
       /* ==============================================================
       THEME TOGGLE — Light / Dark with localStorage persistence
@@ -1593,84 +1618,73 @@
       momentum-based version. We also hook it into GSAP's ticker
       so ScrollTrigger positions stay accurate.
     ============================================================== */
-      const lenis = new Lenis({
-        duration: 1.2, // Scroll animation length in seconds (increase = slower/smoother)
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true,
-      });
+      let lenis = null;
+      if (typeof Lenis !== "undefined") {
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smooth: true,
+        });
 
-      /* Connect Lenis to GSAP — required for ScrollTrigger accuracy */
-      gsap.ticker.add((time) => lenis.raf(time * 1000));
-      gsap.ticker.lagSmoothing(0); /* Prevents jumpiness after switching tabs */
+        if (typeof gsap !== "undefined") {
+          gsap.ticker.add((time) => lenis.raf(time * 1000));
+          gsap.ticker.lagSmoothing(0);
+        } else {
+          /* Fallback RAF loop if GSAP is absent */
+          function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
+          requestAnimationFrame(lenisRaf);
+        }
+      }
 
-      /* Make all anchor links use Lenis smooth scroll */
+      /* Make all anchor links use Lenis smooth scroll (falls back to native) */
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", (e) => {
           e.preventDefault();
           const target = document.querySelector(anchor.getAttribute("href"));
-          if (target) lenis.scrollTo(target, { offset: -65 }); // -65 = navbar height
+          if (!target) return;
+          if (lenis) {
+            lenis.scrollTo(target, { offset: -65 });
+          } else {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
         });
       });
 
       /* ==============================================================
-      GSAP — Page Load Animation Timeline
-      Runs once on page load. Sequence:
-        1. Fade out loader overlay
-        2. Stagger hero elements in from below
+      GSAP — Page Load Animation Timeline (runs only if GSAP loaded)
+      CSS fallback already handles the loader if GSAP is absent.
     ============================================================== */
-      const tl = gsap.timeline({
-        onComplete: () => {
-          /* Remove loader from DOM flow once animation is done */
-          document.getElementById("loader").style.display = "none";
-        },
-      });
-
-      /* Step 1: Fade out loader */
-      tl.to("#loader", { opacity: 0, duration: 0.5, ease: "power2.out" });
-
-      /* Step 2: Stagger hero elements — each starts before the previous ends ("-=0.x") */
-      tl.fromTo(
-        "#hero-status",
-        { y: 14, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-        "-=0.1",
-      )
-        .fromTo(
-          "#hero-name",
-          { y: 32, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-          "-=0.35",
-        )
-        .fromTo(
-          "#hero-subtitle",
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
-          "-=0.45",
-        )
-        .fromTo(
-          "#hero-bio",
-          { y: 16, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
-          "-=0.4",
-        )
-        .fromTo(
-          "#hero-cta",
-          { y: 12, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
-          "-=0.35",
+      if (typeof gsap !== "undefined") {
+        /* Reset hero elements so GSAP can animate them from opacity:0 */
+        ["#hero-status","#hero-name","#hero-subtitle","#hero-bio","#hero-cta"].forEach(
+          (sel) => { const el = document.querySelector(sel); if (el) el.style.opacity = "0"; }
         );
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            document.getElementById("loader").style.display = "none";
+          },
+        });
+
+        tl.to("#loader", { opacity: 0, duration: 0.5, ease: "power2.out" })
+          .fromTo("#hero-status", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.1")
+          .fromTo("#hero-name",   { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.35")
+          .fromTo("#hero-subtitle",{ y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, "-=0.45")
+          .fromTo("#hero-bio",    { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.4")
+          .fromTo("#hero-cta",    { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, "-=0.35");
+      }
 
       /* ==============================================================
       AOS — Animate on Scroll Initialization
-      Elements using data-aos="fade-up" will animate in as they
-      enter the viewport. All settings configurable here.
     ============================================================== */
-      AOS.init({
-        duration: 650 /* Animation length in ms */,
-        easing: "ease-out",
-        once: true /* Only animate each element once */,
-        offset: 60 /* px from viewport edge to trigger */,
-      });
+      if (typeof AOS !== "undefined") {
+        AOS.init({
+          duration: 650,
+          easing: "ease-out",
+          once: true,
+          offset: 60,
+        });
+      }
 
       /* ==============================================================
       NAVBAR — Hide on scroll-down, show on scroll-up
@@ -1780,6 +1794,13 @@
         /* Disable button to prevent double submission */
         btn.disabled = true;
         btn.textContent = "Sending…";
+
+        if (typeof emailjs === "undefined") {
+          showToast("Email service not configured yet.", true);
+          btn.disabled = false;
+          btn.textContent = "Send Message →";
+          return;
+        }
 
         /* Send via EmailJS — variable names must match your template */
         emailjs
