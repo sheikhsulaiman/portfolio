@@ -82,6 +82,10 @@
         --font-body: "IBM Plex Sans", sans-serif;
         --font-mono: "IBM Plex Mono", monospace;
 
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+
         --bg: #f9f8f6; /* Page background — warm off-white      */
         --surface: #f1ede7; /* Card/tag backgrounds                  */
         --border: #e2dbd3; /* Dividers and borders                  */
@@ -128,6 +132,11 @@
         font-weight: 300;
         line-height: 1.75;
         overflow-x: hidden;
+      }
+
+      /* Force rounded corners for DaisyUI buttons, including .rounded-none utilities */
+      .btn {
+        border-radius: var(--radius-md) !important;
       }
 
       h1,
@@ -235,11 +244,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         background: none;
         border: 1px solid var(--border);
-        border-radius: 50%;
+        border-radius: var(--radius-md);
         cursor: pointer;
         color: var(--muted);
         transition:
@@ -325,11 +334,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         background: none;
         border: 1px solid var(--border);
-        border-radius: 50%;
+        border-radius: var(--radius-md);
         cursor: pointer;
         color: var(--muted);
         transition:
@@ -520,7 +529,7 @@
         letter-spacing: 0.06em;
         padding: 0.3rem 0.75rem;
         border: 1px solid var(--border);
-        border-radius: 9999px;
+        border-radius: var(--radius-md);
         color: var(--text);
         background: transparent;
         transition:
@@ -597,7 +606,7 @@
 
       .project-card {
         border: 1px solid var(--border);
-        border-radius: 12px;
+        border-radius: var(--radius-lg);
         padding: 1.6rem;
         background: var(--bg);
         color: var(--text);
@@ -650,7 +659,7 @@
         padding: 0.2rem 0.55rem;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 9999px;
+        border-radius: var(--radius-sm);
         color: var(--muted);
       }
 
@@ -695,21 +704,24 @@
       .cv-input {
         width: 100%;
         background: transparent;
-        border: none;
-        border-bottom: 1px solid var(--border);
-        padding: 0.6rem 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 0.6rem 0.85rem;
         font-family: var(--font-body);
         font-size: 0.9rem;
         font-weight: 300;
         color: var(--text);
         outline: none;
-        transition: border-color 0.2s;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
         margin-bottom: 1.4rem;
         display: block;
       }
 
       .cv-input:focus {
-        border-bottom-color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-soft);
       }
       .cv-input::placeholder {
         color: var(--muted);
@@ -770,7 +782,7 @@
         padding: 0.75rem 1.4rem;
         background: var(--text);
         color: var(--bg);
-        border-radius: 9999px;
+        border-radius: var(--radius-md);
         opacity: 0;
         transform: translateY(10px);
         pointer-events: none;
@@ -785,10 +797,7 @@
       }
 
       /* ======================================================
-      PAGE LOADER — fades out via GSAP after load.
-      CSS @keyframes provide a guaranteed fallback: if GSAP
-      never loads, the loader fades out and hides itself after
-      1.2 s via animation alone.
+      PAGE LOADER — fades out via GSAP after load
     ====================================================== */
       #loader {
         position: fixed;
@@ -798,16 +807,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        /* Fallback: fade out after 0.8 s delay, then stay hidden */
-        animation: loaderFadeOut 0.5s ease 0.7s forwards;
-      }
-
-      @keyframes loaderFadeOut {
-        to {
-          opacity: 0;
-          pointer-events: none;
-          visibility: hidden;
-        }
       }
 
       .loader-text {
@@ -816,16 +815,6 @@
         letter-spacing: 0.2em;
         text-transform: uppercase;
         color: var(--muted);
-      }
-
-      /* Hero elements are visible by default; GSAP animates them
-         in from opacity:0 if it loads in time. */
-      #hero-status,
-      #hero-name,
-      #hero-subtitle,
-      #hero-bio,
-      #hero-cta {
-        opacity: 1 !important;
       }
 
       /* ======================================================
@@ -1020,7 +1009,7 @@
       <div class="hero-cta" id="hero-cta">
         <a
           href="#contact"
-          class="btn btn-sm"
+          class="btn btn-sm rounded-none"
           style="
             background: var(--accent);
             border-color: var(--accent);
@@ -1028,34 +1017,23 @@
             font-family: var(--font-mono);
             font-size: 0.82rem;
             letter-spacing: 0.08em;
-            padding: 0.6rem 1.6rem;
-            border-radius: 9999px;
-            border: 1.5px solid var(--accent);
-            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+            padding: 0.6rem 1.5rem;
           "
-          onmouseover="this.style.background='#a03d14';this.style.boxShadow='0 3px 10px rgba(184,74,26,0.25)';this.style.transform='translateY(-1px)'"
-          onmouseout="this.style.background='var(--accent)';this.style.boxShadow='0 1px 4px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'"
         >
           Get in Touch
         </a>
         <a
           href="#"
           target="_blank"
-          class="btn btn-sm"
+          class="btn btn-sm btn-outline rounded-none"
           style="
-            background: transparent;
-            border: 1.5px solid var(--border);
+            border-color: var(--border);
             color: var(--muted);
             font-family: var(--font-mono);
             font-size: 0.82rem;
             letter-spacing: 0.08em;
-            padding: 0.6rem 1.6rem;
-            border-radius: 9999px;
-            transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
+            padding: 0.6rem 1.5rem;
           "
-          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';this.style.background='var(--accent-soft)';this.style.transform='translateY(-1px)'"
-          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';this.style.background='transparent';this.style.transform='translateY(0)'"
         >
           Download CV ↓
         </a>
@@ -1117,12 +1095,15 @@
               <span class="info-label">Email</span>
               <!-- EDIT: Your real email -->
               <span class="info-value">
-                <a href="/cdn-cgi/l/email-protection#0e7d666b6765667d7b626f67636f607d6160774e69636f6762206d6163" style="
+                <a
+                  href="mailto:sheikhsulaimansony@gmail.com"
+                  style="
                     color: var(--text);
                     text-underline-offset: 3px;
                     text-decoration: underline;
-                  ">
-                  <span class="__cf_email__" data-cfemail="c8bba0ada1a3a0bbbda4a9a1a5a9a6bba7a6b188afa5a9a1a4e6aba7a5">[email&#160;protected]</span>
+                  "
+                >
+                  sheikhsulaimansony@gmail.com
                 </a>
               </span>
             </div>
@@ -1413,10 +1394,13 @@
             </p>
             <div class="contact-links" style="margin-top: 1.5rem">
               <!-- EDIT: Replace with your real links/email -->
-              <a href="/cdn-cgi/l/email-protection#4f3c272a2624273c3a232e26222e213c2021360f28222e2623612c2022" class="contact-link">
+              <a
+                href="mailto:sheikhsulaimansony@gmail.com"
+                class="contact-link"
+              >
                 <span class="mono" style="min-width: 5rem">Email</span>
                 <span style="color: var(--border); padding: 0 0.2rem">—</span>
-                <span class="__cf_email__" data-cfemail="9deef5f8f4f6f5eee8f1fcf4f0fcf3eef2f3e4ddfaf0fcf4f1b3fef2f0">[email&#160;protected]</span>
+                sheikhsulaimansony@gmail.com
               </a>
               <a
                 href="https://github.com/sheikhsulaiman"
@@ -1476,22 +1460,16 @@
                 id="submit-btn"
                 type="button"
                 onclick="sendEmail()"
-                class="btn btn-sm"
+                class="btn btn-sm rounded-none"
                 style="
                   background: var(--accent);
-                  border: 1.5px solid var(--accent);
+                  border-color: var(--accent);
                   color: #fff;
                   font-family: var(--font-mono);
                   font-size: 0.82rem;
                   letter-spacing: 0.08em;
-                  padding: 0.6rem 1.6rem;
-                  border-radius: 9999px;
-                  cursor: pointer;
-                  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
-                  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+                  padding: 0.6rem 1.5rem;
                 "
-                onmouseover="this.style.background='#a03d14';this.style.boxShadow='0 3px 10px rgba(184,74,26,0.25)';this.style.transform='translateY(-1px)'"
-                onmouseout="this.style.background='var(--accent)';this.style.boxShadow='0 1px 4px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'"
               >
                 Send Message →
               </button>
@@ -1516,7 +1494,7 @@
         <a href="https://linkedin.com/in/sheikh-sulaiman/" target="_blank"
           >LinkedIn</a
         >
-        <a href="/cdn-cgi/l/email-protection#d0a3b8b5b9bbb8a3a5bcb1b9bdb1bea3bfbea990b7bdb1b9bcfeb3bfbd">Email</a>
+        <a href="mailto:sheikhsulaimansony@gmail.com">Email</a>
       </div>
     </footer>
 
@@ -1531,7 +1509,7 @@
   ============================================================== -->
 
     <!-- 1. Lenis — smooth scrolling -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <!-- 2. GSAP core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1560,9 +1538,7 @@
       const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; // e.g. "service_xxxxxx"
       const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // e.g. "template_xxxxxx"
 
-      if (typeof emailjs !== "undefined") {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-      }
+      emailjs.init(EMAILJS_PUBLIC_KEY);
 
       /* ==============================================================
       THEME TOGGLE — Light / Dark with localStorage persistence
@@ -1618,73 +1594,84 @@
       momentum-based version. We also hook it into GSAP's ticker
       so ScrollTrigger positions stay accurate.
     ============================================================== */
-      let lenis = null;
-      if (typeof Lenis !== "undefined") {
-        lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smooth: true,
-        });
+      const lenis = new Lenis({
+        duration: 1.2, // Scroll animation length in seconds (increase = slower/smoother)
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smooth: true,
+      });
 
-        if (typeof gsap !== "undefined") {
-          gsap.ticker.add((time) => lenis.raf(time * 1000));
-          gsap.ticker.lagSmoothing(0);
-        } else {
-          /* Fallback RAF loop if GSAP is absent */
-          function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); }
-          requestAnimationFrame(lenisRaf);
-        }
-      }
+      /* Connect Lenis to GSAP — required for ScrollTrigger accuracy */
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0); /* Prevents jumpiness after switching tabs */
 
-      /* Make all anchor links use Lenis smooth scroll (falls back to native) */
+      /* Make all anchor links use Lenis smooth scroll */
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", (e) => {
           e.preventDefault();
           const target = document.querySelector(anchor.getAttribute("href"));
-          if (!target) return;
-          if (lenis) {
-            lenis.scrollTo(target, { offset: -65 });
-          } else {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
+          if (target) lenis.scrollTo(target, { offset: -65 }); // -65 = navbar height
         });
       });
 
       /* ==============================================================
-      GSAP — Page Load Animation Timeline (runs only if GSAP loaded)
-      CSS fallback already handles the loader if GSAP is absent.
+      GSAP — Page Load Animation Timeline
+      Runs once on page load. Sequence:
+        1. Fade out loader overlay
+        2. Stagger hero elements in from below
     ============================================================== */
-      if (typeof gsap !== "undefined") {
-        /* Reset hero elements so GSAP can animate them from opacity:0 */
-        ["#hero-status","#hero-name","#hero-subtitle","#hero-bio","#hero-cta"].forEach(
-          (sel) => { const el = document.querySelector(sel); if (el) el.style.opacity = "0"; }
+      const tl = gsap.timeline({
+        onComplete: () => {
+          /* Remove loader from DOM flow once animation is done */
+          document.getElementById("loader").style.display = "none";
+        },
+      });
+
+      /* Step 1: Fade out loader */
+      tl.to("#loader", { opacity: 0, duration: 0.5, ease: "power2.out" });
+
+      /* Step 2: Stagger hero elements — each starts before the previous ends ("-=0.x") */
+      tl.fromTo(
+        "#hero-status",
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+        "-=0.1",
+      )
+        .fromTo(
+          "#hero-name",
+          { y: 32, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.35",
+        )
+        .fromTo(
+          "#hero-subtitle",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" },
+          "-=0.45",
+        )
+        .fromTo(
+          "#hero-bio",
+          { y: 16, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" },
+          "-=0.4",
+        )
+        .fromTo(
+          "#hero-cta",
+          { y: 12, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+          "-=0.35",
         );
-
-        const tl = gsap.timeline({
-          onComplete: () => {
-            document.getElementById("loader").style.display = "none";
-          },
-        });
-
-        tl.to("#loader", { opacity: 0, duration: 0.5, ease: "power2.out" })
-          .fromTo("#hero-status", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.1")
-          .fromTo("#hero-name",   { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.35")
-          .fromTo("#hero-subtitle",{ y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, "-=0.45")
-          .fromTo("#hero-bio",    { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "-=0.4")
-          .fromTo("#hero-cta",    { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, "-=0.35");
-      }
 
       /* ==============================================================
       AOS — Animate on Scroll Initialization
+      Elements using data-aos="fade-up" will animate in as they
+      enter the viewport. All settings configurable here.
     ============================================================== */
-      if (typeof AOS !== "undefined") {
-        AOS.init({
-          duration: 650,
-          easing: "ease-out",
-          once: true,
-          offset: 60,
-        });
-      }
+      AOS.init({
+        duration: 650 /* Animation length in ms */,
+        easing: "ease-out",
+        once: true /* Only animate each element once */,
+        offset: 60 /* px from viewport edge to trigger */,
+      });
 
       /* ==============================================================
       NAVBAR — Hide on scroll-down, show on scroll-up
@@ -1795,13 +1782,6 @@
         btn.disabled = true;
         btn.textContent = "Sending…";
 
-        if (typeof emailjs === "undefined") {
-          showToast("Email service not configured yet.", true);
-          btn.disabled = false;
-          btn.textContent = "Send Message →";
-          return;
-        }
-
         /* Send via EmailJS — variable names must match your template */
         emailjs
           .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
@@ -1845,3 +1825,13 @@
           3500,
         ); /* Auto-hide after 3.5s */
       }
+
+      /* ==============================================================
+      FOOTER — Auto-update copyright year
+      Inserts the current year so it never gets stale.
+    ============================================================== */
+      document.getElementById("footer-year").textContent =
+        new Date().getFullYear();
+    </script>
+  </body>
+</html>
