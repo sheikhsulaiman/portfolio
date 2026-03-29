@@ -235,11 +235,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         background: none;
         border: 1px solid var(--border);
-        border-radius: 3px;
+        border-radius: 50%;
         cursor: pointer;
         color: var(--muted);
         transition:
@@ -325,11 +325,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         background: none;
         border: 1px solid var(--border);
-        border-radius: 3px;
+        border-radius: 50%;
         cursor: pointer;
         color: var(--muted);
         transition:
@@ -520,7 +520,7 @@
         letter-spacing: 0.06em;
         padding: 0.3rem 0.75rem;
         border: 1px solid var(--border);
-        border-radius: 2px;
+        border-radius: 9999px;
         color: var(--text);
         background: transparent;
         transition:
@@ -597,7 +597,7 @@
 
       .project-card {
         border: 1px solid var(--border);
-        border-radius: 3px;
+        border-radius: 12px;
         padding: 1.6rem;
         background: var(--bg);
         color: var(--text);
@@ -650,7 +650,7 @@
         padding: 0.2rem 0.55rem;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 2px;
+        border-radius: 9999px;
         color: var(--muted);
       }
 
@@ -770,7 +770,7 @@
         padding: 0.75rem 1.4rem;
         background: var(--text);
         color: var(--bg);
-        border-radius: 3px;
+        border-radius: 9999px;
         opacity: 0;
         transform: translateY(10px);
         pointer-events: none;
@@ -997,7 +997,7 @@
       <div class="hero-cta" id="hero-cta">
         <a
           href="#contact"
-          class="btn btn-sm rounded-none"
+          class="btn btn-sm"
           style="
             background: var(--accent);
             border-color: var(--accent);
@@ -1005,23 +1005,34 @@
             font-family: var(--font-mono);
             font-size: 0.82rem;
             letter-spacing: 0.08em;
-            padding: 0.6rem 1.5rem;
+            padding: 0.6rem 1.6rem;
+            border-radius: 9999px;
+            border: 1.5px solid var(--accent);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.10);
           "
+          onmouseover="this.style.background='#a03d14';this.style.boxShadow='0 3px 10px rgba(184,74,26,0.25)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.background='var(--accent)';this.style.boxShadow='0 1px 4px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'"
         >
           Get in Touch
         </a>
         <a
           href="#"
           target="_blank"
-          class="btn btn-sm btn-outline rounded-none"
+          class="btn btn-sm"
           style="
-            border-color: var(--border);
+            background: transparent;
+            border: 1.5px solid var(--border);
             color: var(--muted);
             font-family: var(--font-mono);
             font-size: 0.82rem;
             letter-spacing: 0.08em;
-            padding: 0.6rem 1.5rem;
+            padding: 0.6rem 1.6rem;
+            border-radius: 9999px;
+            transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
           "
+          onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)';this.style.background='var(--accent-soft)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)';this.style.background='transparent';this.style.transform='translateY(0)'"
         >
           Download CV ↓
         </a>
@@ -1083,15 +1094,12 @@
               <span class="info-label">Email</span>
               <!-- EDIT: Your real email -->
               <span class="info-value">
-                <a
-                  href="mailto:sheikhsulaimansony@gmail.com"
-                  style="
+                <a href="/cdn-cgi/l/email-protection#0e7d666b6765667d7b626f67636f607d6160774e69636f6762206d6163" style="
                     color: var(--text);
                     text-underline-offset: 3px;
                     text-decoration: underline;
-                  "
-                >
-                  sheikhsulaimansony@gmail.com
+                  ">
+                  <span class="__cf_email__" data-cfemail="c8bba0ada1a3a0bbbda4a9a1a5a9a6bba7a6b188afa5a9a1a4e6aba7a5">[email&#160;protected]</span>
                 </a>
               </span>
             </div>
@@ -1382,13 +1390,10 @@
             </p>
             <div class="contact-links" style="margin-top: 1.5rem">
               <!-- EDIT: Replace with your real links/email -->
-              <a
-                href="mailto:sheikhsulaimansony@gmail.com"
-                class="contact-link"
-              >
+              <a href="/cdn-cgi/l/email-protection#4f3c272a2624273c3a232e26222e213c2021360f28222e2623612c2022" class="contact-link">
                 <span class="mono" style="min-width: 5rem">Email</span>
                 <span style="color: var(--border); padding: 0 0.2rem">—</span>
-                sheikhsulaimansony@gmail.com
+                <span class="__cf_email__" data-cfemail="9deef5f8f4f6f5eee8f1fcf4f0fcf3eef2f3e4ddfaf0fcf4f1b3fef2f0">[email&#160;protected]</span>
               </a>
               <a
                 href="https://github.com/sheikhsulaiman"
@@ -1448,16 +1453,22 @@
                 id="submit-btn"
                 type="button"
                 onclick="sendEmail()"
-                class="btn btn-sm rounded-none"
+                class="btn btn-sm"
                 style="
                   background: var(--accent);
-                  border-color: var(--accent);
+                  border: 1.5px solid var(--accent);
                   color: #fff;
                   font-family: var(--font-mono);
                   font-size: 0.82rem;
                   letter-spacing: 0.08em;
-                  padding: 0.6rem 1.5rem;
+                  padding: 0.6rem 1.6rem;
+                  border-radius: 9999px;
+                  cursor: pointer;
+                  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+                  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
                 "
+                onmouseover="this.style.background='#a03d14';this.style.boxShadow='0 3px 10px rgba(184,74,26,0.25)';this.style.transform='translateY(-1px)'"
+                onmouseout="this.style.background='var(--accent)';this.style.boxShadow='0 1px 4px rgba(0,0,0,0.10)';this.style.transform='translateY(0)'"
               >
                 Send Message →
               </button>
@@ -1482,7 +1493,7 @@
         <a href="https://linkedin.com/in/sheikh-sulaiman/" target="_blank"
           >LinkedIn</a
         >
-        <a href="mailto:sheikhsulaimansony@gmail.com">Email</a>
+        <a href="/cdn-cgi/l/email-protection#d0a3b8b5b9bbb8a3a5bcb1b9bdb1bea3bfbea990b7bdb1b9bcfeb3bfbd">Email</a>
       </div>
     </footer>
 
@@ -1497,7 +1508,7 @@
   ============================================================== -->
 
     <!-- 1. Lenis — smooth scrolling -->
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
     <!-- 2. GSAP core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1813,13 +1824,3 @@
           3500,
         ); /* Auto-hide after 3.5s */
       }
-
-      /* ==============================================================
-      FOOTER — Auto-update copyright year
-      Inserts the current year so it never gets stale.
-    ============================================================== */
-      document.getElementById("footer-year").textContent =
-        new Date().getFullYear();
-    </script>
-  </body>
-</html>
